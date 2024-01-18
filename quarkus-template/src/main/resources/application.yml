@@ -1,0 +1,70 @@
+quarkus:
+  banner:
+    enabled: false
+  hibernate-orm:
+    database:
+      generation: none
+  micrometer:
+    binder:
+      http-server:
+        ignore-patterns:
+          - '/q.*'
+  smallrye-jwt:
+    enabled: true
+  flyway:
+    migrate-at-start: false
+    locations: db/migration,db/testdata
+    default-schema: warehouse
+  datasource:
+    db-kind: postgresql
+    username: odn_warehouse
+    password: ODN123@
+    jdbc:
+      url: jdbc:postgresql://odn-dev-instance.cfyqec6uqokk.ap-southeast-1.rds.amazonaws.com:5432/warehousemanagement
+      max-size: 16
+  http:
+    record-request-start-time: true
+    access-log:
+      enabled: true
+      pattern: '%h %l %u %t "%r" %s %b %m "%{i,Referer}" "%{i,User-Agent}" "%{i,X-Request-Id}" "%{i,X-Organization-Id}" %D'
+      log-to-file: false
+      base-file-name: ./logs/access-log
+      rotate: false
+  log:
+    level: INFO
+    category:
+      "com.odn":
+        level: INFO
+      "org.apache.http":
+        level: INFO
+      "org.hibernate":
+        level: INFO
+      "io.quarkus.http.access-log":
+        level: INFO
+    console:
+      format: "%d{dd-MM-yyyy HH:mm:ss.SSS} %-5p [%c] (%t) %s%e%n"
+
+  rest-client:
+    logging:
+      scope: request-response
+      body-limit: 1024
+mp:
+  openapi:
+    extensions:
+      smallrye:
+        info:
+          title: Customer API
+          version: 0.0.1
+          description: API for retrieving customers
+          contact:
+            email: techsupport@redhat.com
+            name: Customer API Support
+            url: https://github.com/quarkus-ground-up/customer-api
+          license:
+            name: Apache 2.0
+            url: http://www.apache.org/licenses/LICENSE-2.0.html
+  jwt:
+    verify:
+      publickey:
+        location: publickey.pem
+      issuer: http://localhost:7001/auth/iss

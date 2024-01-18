@@ -1,0 +1,197 @@
+---
+openapi: 3.0.3
+info:
+  title: Customer API
+  description: API for retrieving customers
+  contact:
+    name: Customer API Support
+    url: https://github.com/quarkus-ground-up/customer-api
+    email: techsupport@redhat.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+tags:
+- name: customer
+  description: Customer Operations
+paths:
+  /customers:
+    get:
+      tags:
+      - customer
+      responses:
+        "200":
+          description: Get All Customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      tags:
+      - customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        "201":
+          description: Customer Created
+          content:
+            application/json:
+              schema:
+                required:
+                - firstName
+                - lastName
+                type: object
+                properties:
+                  customerId:
+                    format: int32
+                    type: integer
+                  firstName:
+                    minLength: 1
+                    type: string
+                    nullable: false
+                  middleName:
+                    type: string
+                  lastName:
+                    minLength: 1
+                    type: string
+                    nullable: false
+                  suffix:
+                    type: string
+                  email:
+                    type: string
+                  phone:
+                    type: string
+        "400":
+          description: Customer already exists for customerId
+          content:
+            application/json: {}
+  /customers/{customerId}:
+    get:
+      tags:
+      - customer
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          description: Get Customer by customerId
+          content:
+            application/json:
+              schema:
+                required:
+                - firstName
+                - lastName
+                type: object
+                properties:
+                  customerId:
+                    format: int32
+                    type: integer
+                  firstName:
+                    minLength: 1
+                    type: string
+                    nullable: false
+                  middleName:
+                    type: string
+                  lastName:
+                    minLength: 1
+                    type: string
+                    nullable: false
+                  suffix:
+                    type: string
+                  email:
+                    type: string
+                  phone:
+                    type: string
+        "404":
+          description: Customer does not exist for customerId
+          content:
+            application/json: {}
+    put:
+      tags:
+      - customer
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          format: int32
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        "204":
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                required:
+                - firstName
+                - lastName
+                type: object
+                properties:
+                  customerId:
+                    format: int32
+                    type: integer
+                  firstName:
+                    minLength: 1
+                    type: string
+                    nullable: false
+                  middleName:
+                    type: string
+                  lastName:
+                    minLength: 1
+                    type: string
+                    nullable: false
+                  suffix:
+                    type: string
+                  email:
+                    type: string
+                  phone:
+                    type: string
+        "400":
+          description: Path variable customerId does not match Customer.customerId
+          content:
+            application/json: {}
+        "404":
+          description: No Customer found for customerId provided
+          content:
+            application/json: {}
+components:
+  schemas:
+    Customer:
+      required:
+      - firstName
+      - lastName
+      type: object
+      properties:
+        customerId:
+          format: int32
+          type: integer
+        firstName:
+          minLength: 1
+          type: string
+          nullable: false
+        middleName:
+          type: string
+        lastName:
+          minLength: 1
+          type: string
+          nullable: false
+        suffix:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string

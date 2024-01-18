@@ -1,0 +1,22 @@
+quarkus:
+  log:
+    level: DEBUG
+    category:
+      "com.odn":
+        level: INFO
+      "org.apache.http":
+        level: INFO
+      "org.hibernate":
+        level: INFO
+  file:
+    enable: true
+    path: ./logs/application.log
+    format: "%d{dd-MM-yyyy HH:mm:ss.SSS} %-5p [%c] (%t) %s%e%n"
+    rotation:
+      max-file-size: 1M
+      max-backup-index: 100
+  hibernate-orm:
+    log:
+      sql: true
+  swagger-ui:
+    always-include: true
