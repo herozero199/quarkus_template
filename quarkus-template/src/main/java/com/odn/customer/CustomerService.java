@@ -58,7 +58,12 @@ public class CustomerService {
     @Transactional
     public Optional<List<Customer>> search(Customer customer, Integer pageStart, Integer pagesSize) {
         log.debug("Search customer: {}", customer);
-        String query = "first_name = :first_name and middle_name = :middle_name and last_name = :last_name and suffix = :suffix and email = :email and phone = :phone";
+        String query = "(first_name = :first_name or :first_name is null)" +
+                "   and (middle_name = :middle_name or :middle_name is null)" +
+                "   and (last_name = :last_name or :last_name is null)" +
+                "   and (suffix = :suffix or :suffix is null)" +
+                "   and (email = :email or :email is null)" +
+                "   and (phone = :phone or :phone is null)";
         Map<String, Object> params = new HashMap<>();
         params.put("first_name", customer.getFirstName());
         params.put("middle_name", customer.getMiddleName());
