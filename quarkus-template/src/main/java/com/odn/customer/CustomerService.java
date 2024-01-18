@@ -58,11 +58,11 @@ public class CustomerService {
     @Transactional
     public Optional<List<Customer>> search(Customer customer, Integer pageStart, Integer pagesSize) {
         log.debug("Search customer: {}", customer);
-        String query = "firstname = :firstname and middlename = :middlename and lastname = :lastname and suffix = :suffix and email = :email and phone = :phone";
+        String query = "first_name = :first_name and middle_name = :middle_name and last_name = :last_name and suffix = :suffix and email = :email and phone = :phone";
         Map<String, Object> params = new HashMap<>();
-        params.put("firstname", customer.getFirstName());
-        params.put("middlename", customer.getMiddleName());
-        params.put("lastname", customer.getLastName());
+        params.put("first_name", customer.getFirstName());
+        params.put("middle_name", customer.getMiddleName());
+        params.put("last_name", customer.getLastName());
         params.put("suffix", customer.getSuffix());
         params.put("email", customer.getEmail());
         params.put("phone", customer.getPhone());
